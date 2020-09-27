@@ -1,8 +1,18 @@
 <template>
-	<view class="content">
+	<view class="home">
 		<!-- 自定义导航栏 -->
 		<navbar></navbar>
-		<tab :list="tabList"></tab>
+		<tab :list="tabList" @tabEvent="tabChange"></tab>
+		<view class="scroll">
+			<scroll-view scroll-y="true" class="list-scroll">
+				<!-- 最好在外面弄一层方便调整|控制样式 -->
+				<view>
+					<view v-for="item in 100">
+						{{item}}内容
+					</view>
+				</view>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 
@@ -53,10 +63,36 @@
 				this.$api.getListLabel({}).then(data =>{
 					console.info(data);
 				}).catch(err =>{});
+			},
+			//事件的接收,原事件是在tab里发送
+			//tabChange(item){ 也是可以的
+			tabChange({data,index}){ //注意这个地方是否是简写或key是否有误!!!
+				console.info(data)
+				console.info(index)
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
+	page{
+		height: 100%;
+		display: flex;
+	}
+	.home{
+		display: flex;
+		flex-direction: column;/* 让内容垂直排列 */
+		flex: 1;/* 整行撑满 */
+		.scroll{
+			flex: 1;
+			box-sizing: border-box;
+			overflow: hidden;/* 设置页面不能不能滚动滑动 */
+			//给它一个高度
+			.list-scroll{
+				height: 100%;
+				display: flex;
+				flex-direction: column;/* 让内容垂直排列 */
+			}
+		}
+	}
 </style>

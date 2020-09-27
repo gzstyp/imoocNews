@@ -2,7 +2,7 @@
 	<view class="tab">
 		<scroll-view class="tab-scroll" scroll-x>
 			<view class="tab-scroll_box">
-				<view class="tab-scroll_item" v-for="(item,index) in list" :key="index">
+				<view class="tab-scroll_item" v-for="(item,index) in list" :key="index" @click="clickTab(item,index)" :class="{active:activeIndex === index}">
 					{{item.name}}
 				</view>
 			</view>
@@ -56,8 +56,15 @@
 					{
 						name : "php"
 					}
-				]
+				],
+				activeIndex : 0
 			};
+		},
+		methods:{
+			clickTab(item,index){
+				this.activeIndex = index;
+				this.$emit('tabEvent',{data:item,index});//事件的发送|发射,并在调用事件名@tabEvent接收即可,即在index.vue的接收
+			}
 		}
 	}
 </script>
@@ -88,6 +95,10 @@
 					padding: 0 10px;
 					color: #333;
 					font-size: 14px;
+					//选中的样式
+					&.active{
+						color: $mk-base-color;
+					}
 				}
 			}
 		}
