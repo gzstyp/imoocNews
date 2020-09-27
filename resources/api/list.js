@@ -1,3 +1,4 @@
+// 不推荐在使用本js的方式,因为需要在调用方维护url云函数!!!
 import $http from './http.js';
 
 /* 声明一个函数名 queryList,name_url是云函数的名称,此处使用的是原生方式,调用方式:

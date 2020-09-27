@@ -45,9 +45,14 @@
 				}).catch(err =>{
 					console.info(err);
 				});
+				// 这个 login 是在 http.js里定义的
 				this.$api.login().then(data =>{
 					console.info(data);
 				});
+				// 这个 getListLabel 是在 apis.js里定义的,推荐使用
+				this.$api.getListLabel({}).then(data =>{
+					console.info(data);
+				}).catch(err =>{});
 			}
 		}
 	}
