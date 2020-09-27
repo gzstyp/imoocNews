@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import App from './App'
-import api from './resources/api/index.js'
-Vue.config.productionTip = false
+import Vue from 'vue';
+import App from './App';
+import api from './resources/api/index.js';
+Vue.config.productionTip = false;
 Vue.prototype.$api = api;
-App.mpType = 'app'
+App.mpType = 'app';
 
 const app = new Vue({
     ...App
