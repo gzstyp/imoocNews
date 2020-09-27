@@ -15,9 +15,17 @@
 
 <script>
 	export default {
+		props:{
+			list : {
+				type : Array,
+				default(){
+					return []
+				}
+			}
+		},
 		data() {
 			return {
-				list : [
+				lists : [
 					{
 						name : "uni-app"
 					},
