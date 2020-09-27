@@ -12,7 +12,7 @@
 				</view>
 			</view>
 		</view>
-		<view :style="{height:barHeight+'px'}"></view>
+		<view :style="{height:statusBarHeight + barHeight +'px'}"></view>
 	</view>
 </template>
 
