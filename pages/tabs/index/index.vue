@@ -3,22 +3,19 @@
 		<!-- 自定义导航栏 -->
 		<navbar></navbar>
 		<tab :list="tabList" @tabEvent="tabChange"></tab>
-		<listScroll>
-			<listCart mode="base"></listCart>
-			<listCart mode="image"></listCart>
-			<listCart mode="column"></listCart>
-		</listScroll>
+		<view class="home-list">
+			<list :tab="tabList"></list>
+		</view>
 	</view>
 </template>
 
 <script>
-	import navbar from '@/components/navbar/navbar.vue'
-	import tab from '@/components/tab/tab.vue'
-	import listScroll from '@/components/list-scroll/list-scroll.vue'
-	import listCart from '@/components/list-card/list-card.vue'
+	import navbar from '@/components/navbar/navbar.vue';
+	import tab from '@/components/tab/tab.vue';
+	import list from '@/components/list/list.vue';
 	export default {
 		components:{
-			navbar,tab,listScroll,listCart
+			navbar,tab,list
 		},
 		data() {
 			return {
@@ -81,6 +78,7 @@
 		flex-direction: column;/* 让内容垂直排列 */
 		flex: 1;/* 整行撑满 */
 		overflow: hidden;/* 解决 块 被挤到屏幕的外边去了,解决方法就是被挤到屏幕外的元素的父级元素添加 overflow: hidden; 即可!!!*/
+		
 		/* 已封装成组件所以已移走了
 		.scroll{
 			flex: 1;
@@ -93,5 +91,11 @@
 				flex-direction: column;//让内容垂直排列
 			}
 		} */
+		
+		.home-list{
+			flex: 1;/* 让其撑开 */
+			box-sizing: border-box;/* 让子元素在本盒子内排版 */
+			//border: 1px solid $mk-base-color;//调试用的
+		}
 	}
 </style>
