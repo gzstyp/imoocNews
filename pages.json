@@ -36,8 +36,8 @@
 			{
 				"pagePath":"pages/tabs/index/index",
 				//仅支持本地图片且大小不能超过40kb,建议 81*81px
-				"iconPath":"static/tab/index_normal.png",
-				"selectedIconPath":"static/tab/index_selected.png",
+				"iconPath":"/static/tab/index_normal.png",
+				"selectedIconPath":"/static/tab/index_selected.png",
 				"text":"首页"
 			},
 			{
