@@ -21,49 +21,27 @@
 				default(){
 					return []
 				}
+			},
+			tabIndex : {
+				type : Number,
+				default : 0
+			}
+		},
+		//可以监听 data() 或 props的值的变换,此处监听 props 的属性 tabIndex 数据
+		watch:{
+			tabIndex(newValue,oldValue){
+				this.activeIndex = newValue;
 			}
 		},
 		data() {
 			return {
-				lists : [
-					{
-						name : "uni-app"
-					},
-					{
-						name : "vue"
-					},
-					{
-						name : "spring"
-					},
-					{
-						name : "mysql"
-					},
-					{
-						name : "oracle"
-					},
-					{
-						name : "javascript"
-					},
-					{
-						name : "java"
-					},
-					{
-						name : "jquery"
-					},
-					{
-						name : "golang"
-					},
-					{
-						name : "php"
-					}
-				],
 				activeIndex : 0
 			};
 		},
 		methods:{
 			clickTab(item,index){
 				this.activeIndex = index;
-				this.$emit('tabEvent',{data:item,index});//事件的发送|发射,并在调用事件名@tabEvent接收即可,即在index.vue的接收
+				this.$emit('tabEvent',{data:item,index});//事件的发送|发射,并在调用事件名@tabEvent接收即可,即在index.vue的接收,它往调用页面发送数据
 			}
 		}
 	}

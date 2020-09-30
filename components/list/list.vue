@@ -1,5 +1,5 @@
 <template>
-	<swiper class="home-swiper">
+	<swiper class="home-swiper" @change="changeContent" :current="activeIndex">
 		<swiper-item v-for="(item,index) in tab" class="swiper-item" :key="index">
 			<listItem></listItem>
 		</swiper-item>
@@ -18,12 +18,17 @@
 				default(){
 					return []
 				}
-			}
+			},
+			activeIndex : { //标签的索引值
+				type : Number,
+				default : 0
+			} 
 		},
-		data() {
-			return {
-				
-			};
+		methods : {
+			changeContent(e){
+				const {current} = e.detail;
+				this.$emit('indexChange',current);//把内容滑块的索引值传给tab标签实现联动,它会发送给调用页面!!!
+			}
 		}
 	}
 </script>

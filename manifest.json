@@ -1,7 +1,7 @@
 {
-    "name" : "新闻资讯",
+    "name" : "碗里优",
     "appid" : "__UNI__1033100",
-    "description" : "",
+    "description" : "一个面粉馆",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -78,6 +78,14 @@
     "h5" : {
         "router" : {
             "mode" : "history"
-        }
+        },
+        "title" : "碗里优",
+        "devServer" : {
+            "https" : false
+        },
+        "sdkConfigs" : {
+            "maps" : {}
+        },
+        "domain" : "www.fwtai.com"
     }
 }

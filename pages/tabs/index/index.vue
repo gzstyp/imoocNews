@@ -2,9 +2,10 @@
 	<view class="home">
 		<!-- 自定义导航栏 -->
 		<navbar></navbar>
-		<tab :list="tabList" @tabEvent="tabChange"></tab>
+		<tab :list="tabList" @tabEvent="tabChange" :tabIndex="tabIndex"></tab>
 		<view class="home-list">
-			<list :tab="tabList"></list>
+			<!-- activeIndex是tab标签栏的索引值,indexChange是子组件发送回来[内容滑块的索引值] -->
+			<list :tab="tabList" :activeIndex="activeIndex" @indexChange="indexChange"></list>
 		</view>
 	</view>
 </template>
@@ -20,13 +21,19 @@
 		data() {
 			return {
 				title: 'Hello',
-				tabList : []
+				tabList : [],
+				tabIndex : 0,
+				activeIndex : 0
 			}
 		},
 		onLoad() {
 			this.getLabel();
 		},
-		methods: {
+		methods : {
+			//当前swiper的索引值
+			indexChange(index){ //indexChange是子组件发送回来[内容滑块的索引值] 
+				this.tabIndex = index;
+			},
 			getLabel(){
 				/* var _this = this;
 				uniCloud.callFunction({
@@ -59,10 +66,8 @@
 				}).catch(err =>{});
 			},
 			//事件的接收,原事件是在tab里发送
-			//tabChange(item){ 也是可以的
 			tabChange({data,index}){ //注意这个地方是否是简写或key是否有误!!!
-				console.info(data)
-				console.info(index)
+				this.activeIndex = index;
 			}
 		}
 	}
