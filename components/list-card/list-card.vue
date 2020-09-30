@@ -1,63 +1,58 @@
 <template>
 	<view>
 		<!-- 基础卡片 -->
-		<view v-if="mode === 'base'" class="listcard">
+		<view v-if="contentItem.mode === 'base'" class="listcard">
 			<view class="listcard-image">
-				<image src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-imoo8cnews/bc759520-026f-11eb-8ff1-d5dcf8779628.jpg" mode="aspectFill"></image>
+				<!-- 获取第一张,即下标为0 -->
+				<image :src="contentItem.cover[0]"></image>
 			</view>
 			<view class="listcard-context">
 				<view class="listcard-context_title">
-					<text>
-						uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni。java，php
-					</text>
+					<text>{{contentItem.title}}</text>
 				</view>
 				<view class="listcard-context_des">
 					<view class="listcard-context_des_label">
-						<view class="listcard-context_des_label_item">java后端</view>
+						<view class="listcard-context_des_label_item">{{contentItem.classify}}</view>
 					</view>
-					<view class="listcard-context_des_browse">10254浏览</view>
+					<view class="listcard-context_des_browse">{{contentItem.browse_count}}浏览</view>
 				</view>
 			</view>
 		</view>
 		
 		<!-- 多图模式 -->
-		<view v-if="mode === 'column'" class="listcard mode-column">
+		<view v-if="contentItem.mode === 'column'" class="listcard mode-column">
 			<view class="listcard-context">
 				<view class="listcard-context_title">
-					<text>
-						uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni。java，php
-					</text>
+					<text>{{contentItem.title}}</text>
 				</view>
 				<view class="listcard-image">
-					<view v-for="item in 3" :key="item" class="listcard-image_item">
-						<image src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-imoo8cnews/d75c06d0-026f-11eb-b997-9918a5dda011.jpg" mode="aspectFill"></image>
+					<view v-if="index < 3" v-for="(item,index) in contentItem.cover" :key="index" class="listcard-image_item">
+						<image :src="item" mode="aspectFill"></image>
 					</view>
 				</view>
 				<view class="listcard-context_des">
 					<view class="listcard-context_des_label">
-						<view class="listcard-context_des_label_item">前端</view>
+						<view class="listcard-context_des_label_item">{{contentItem.classify}}</view>
 					</view>
-					<view class="listcard-context_des_browse">10254浏览</view>
+					<view class="listcard-context_des_browse">{{contentItem.browse_count}}浏览</view>
 				</view>
 			</view>
 		</view>
 		
 		<!-- 大图模式 -->
-		<view v-if="mode === 'image'" class="listcard mode-image">
+		<view v-if="contentItem.mode === 'image'" class="listcard mode-image">
 			<view class="listcard-image">
-				<image src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-imoo8cnews/9ca2c330-026f-11eb-b244-a9f5e5565f30.png" mode="aspectFill"></image>
+				<image :src="contentItem.cover[0]" mode="aspectFill"></image>
 			</view>
 			<view class="listcard-context">
 				<view class="listcard-context_title">
-					<text>
-						uni-app开发框架uni-app开发框架uni-app开发框架uni-app开发框架uni。java，php
-					</text>
+					<text>{{contentItem.title}}</text>
 				</view>
 				<view class="listcard-context_des">
 					<view class="listcard-context_des_label">
-						<view class="listcard-context_des_label_item">前端</view>
+						<view class="listcard-context_des_label_item">{{contentItem.classify}}</view>
 					</view>
-					<view class="listcard-context_des_browse">10254浏览</view>
+					<view class="listcard-context_des_browse">{{contentItem.browse_count}}浏览</view>
 				</view>
 			</view>
 		</view>
@@ -67,9 +62,11 @@
 <script>
 	export default {
 		props:{
-			mode :{
-				type:String,
-				default : 'base'
+			contentItem : {
+				type : Object,
+				default(){
+					return {} //空对象
+				}
 			}
 		},
 		data() {

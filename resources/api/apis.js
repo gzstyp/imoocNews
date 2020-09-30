@@ -13,3 +13,7 @@ function getListData(name_url,params){
 export const getListLabel = (params) =>{
 	return getListData('get_label',params);
 }
+//用法 this.$api.getListContent({}).then(data =>{}).catch(err =>{});
+export const getListContent = (params) =>{
+	return getListData('get_list',params);
+}

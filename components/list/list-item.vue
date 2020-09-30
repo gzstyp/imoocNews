@@ -1,11 +1,7 @@
 <template>
 	<listScroll class="list-scroll">
-		<listCart mode="base"></listCart>
-		<listCart mode="image"></listCart>
-		<listCart mode="column"></listCart>
-		<listCart mode="column"></listCart>
-		<listCart mode="column"></listCart>
-		<listCart mode="column"></listCart>
+		<!-- contentItem传给子组件 -->
+		<listCart mode="base" :contentItem="item" v-for="(item,index) in listContent" :key="index"></listCart>
 	</listScroll>
 </template>
 
@@ -15,6 +11,14 @@
 	export default {
 		components:{
 			listScroll,listCart
+		},
+		props : {
+			listContent : {
+				type : Array,
+				default(){
+					return []
+				}
+			}
 		},
 		data() {
 			return {
