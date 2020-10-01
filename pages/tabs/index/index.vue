@@ -52,6 +52,9 @@
 				}); */
 				this.$api.getLabel('get_label',{
 				}).then(data =>{
+					data.data.unshift({ //添加一个标签
+						name:'全部'
+					});
 					this.tabList = data.data;
 				}).catch(err =>{
 					console.info(err);
