@@ -1,4 +1,4 @@
-/*单个导出文件
+/*导出文件
 import {queryList,getLabel,getList,login} from './list.js';//这个方式,原生的写法,但需要在调用方维护url
 import {getListLabel} from './apis.js' //推荐这种方式
 //导出

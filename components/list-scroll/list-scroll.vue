@@ -1,3 +1,4 @@
+<!-- 是列表list.vue组件的item项,它是list-item.vue的容器视图,它会把list-item.vue的dom的listScroll内容插入到插槽<slot>里 -->
 <template>
 	<view class="scroll">
 		<scroll-view scroll-y="true" class="list-scroll" @scrolltolower="loadMore">

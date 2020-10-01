@@ -1,3 +1,4 @@
+<!-- 首页的标签 -->
 <template>
 	<view class="tab">
 		<scroll-view class="tab-scroll" scroll-x>

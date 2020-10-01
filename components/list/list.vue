@@ -1,3 +1,4 @@
+<!-- 首页[]加载的list列表数据的子组件-->
 <template>
 	<swiper class="home-swiper" @change="changeContent" :current="activeIndex">
 		<swiper-item v-for="(item,index) in tab" class="swiper-item" :key="index">
@@ -98,7 +99,7 @@
 							this.$forceUpdate();
 						} */
 						let oldList = this.listCatchData[current] || [];//防止 TypeError: Cannot read property 'push' of undefined
-						oldList.push(...data.data);//...是扩展符,即把 data.data 扩展出来再push到oldList
+						oldList.push(...data.data);//...是扩展符,解构一下???,即在原来的数据基础上添加新数据,即把 data.data 扩展出来再push到oldList
 						this.$set(this.listCatchData,current,oldList);//$set 它可以帮助我们通知页面的数据或对象发生了变化刷新
 					}
 				}).catch(err =>{

@@ -3,7 +3,7 @@
 const db = uniCloud.database();
 exports.main = async (event, context) => {
 	//第1个参数是表名;
-	let labels = await db.collection('label').get()
+	let labels = await db.collection('label').get();//label是指定云数据库的表名
 	console.info(labels)
 	//返回数据给客户端
 	//return labels;// affectedDocs是总条数;data是返回的数据

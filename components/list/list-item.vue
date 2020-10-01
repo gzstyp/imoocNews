@@ -1,3 +1,4 @@
+<!-- 是列表list.vue组件的item项,就是index/index.vue,其包含子组件:list-scroll.vue;list-card.vue;uni-load-more.vue -->
 <template>
 	<!-- 接收子组件发送来的事件,自定义事件名为 loadMore,它是由子组件实时发送事件本调用页面实时接收执行事件的 -->
 	<listScroll class="list-scroll" @loadMore="loadMoreData">
@@ -9,6 +10,7 @@
 </template>
 
 <script>
+	//把dom的listScroll的数据添加到默认的插槽<slot>里,即把 list-card.vue 和 uni-load-more.vue 添加到插槽里
 	import listScroll from '@/components/list-scroll/list-scroll.vue';
 	import listCart from '@/components/list-card/list-card.vue';
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'

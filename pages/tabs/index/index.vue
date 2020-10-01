@@ -1,3 +1,7 @@
+<!-- 
+首页列表,组件调用关系:/components/navbar/navbar.vue;/components/tab/tab.vue;/components/list/list.vue;
+其中调用关系,-index.vue -> list.vue -> list-item.vue
+ -->
 <template>
 	<view class="home">
 		<!-- 自定义导航栏 -->

@@ -1,5 +1,6 @@
+<!-- 首页的列表项,它是index.vue的每一项的视图view -->
 <template>
-	<view>
+	<view @click="open">
 		<!-- 基础卡片 -->
 		<view v-if="contentItem.mode === 'base'" class="listcard">
 			<view class="listcard-image">
@@ -9,6 +10,7 @@
 			<view class="listcard-context">
 				<view class="listcard-context_title">
 					<text>{{contentItem.title}}</text>
+					<likes :item="contentItem"></likes>
 				</view>
 				<view class="listcard-context_des">
 					<view class="listcard-context_des_label">
@@ -24,6 +26,7 @@
 			<view class="listcard-context">
 				<view class="listcard-context_title">
 					<text>{{contentItem.title}}</text>
+					<likes :item="contentItem"></likes>
 				</view>
 				<view class="listcard-image">
 					<view v-if="index < 3" v-for="(item,index) in contentItem.cover" :key="index" class="listcard-image_item">
@@ -47,6 +50,7 @@
 			<view class="listcard-context">
 				<view class="listcard-context_title">
 					<text>{{contentItem.title}}</text>
+					<likes :item="contentItem"></likes>
 				</view>
 				<view class="listcard-context_des">
 					<view class="listcard-context_des_label">
@@ -60,7 +64,11 @@
 </template>
 
 <script>
+	import likes from '@/components/likes/likes.vue'
 	export default {
+		components:{
+			likes
+		},
 		props:{
 			contentItem : {
 				type : Object,
@@ -71,6 +79,12 @@
 		},
 		data() {
 			return {};
+		},
+		methods:{
+			//整个视图的被点击了
+			open(){
+				console.info('详情事件被点击了,无论点击哪里都被触发事件,除了元素本身有事件之外');
+			}
 		}
 	}
 </script>
@@ -110,6 +124,8 @@
 				color: #333;
 				font-weight: 400;
 				line-height: 1.2;
+				padding-right: 30px;//收藏按钮
+				position: relative;//收藏按钮
 				
 				text{
 					overflow: hidden;/* 文字多了之后要隐藏 */

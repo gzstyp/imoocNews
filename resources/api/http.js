@@ -9,19 +9,25 @@ return $http(
 */
 export default function $http(options){
 	const {url,params} = options;
+	const dataObj = {
+		user_id : "5f6f3bfc37d16d000179521d",//每次请求默认都会添加这个user_id
+		...params //解构一下,你需要在每个请求的参数里重复添加上面的user_id，即在原来的数据基础上添加新的数据
+	}
 	return new Promise((reslove,reject) =>{
 		uniCloud.callFunction({
 			name : url,
-			data : params
+			data : dataObj
 		}).then(res =>{
-			//执行的是 .then(data)
-			if(res.result.code === 200){
+			/* if(res.result.code === 200){
 				reslove(res.result);
 			}else{
-				// .catch(err)
+				// .catch(err);
 				reject(res.result);
-			}
+			} */
+			//执行的是 .then(data);
+			reslove(res.result);//主要是正常返回的都走reslove();
 		}).catch((err) =>{
+			// .catch(err);
 			reject(err);
 		});
 	});
