@@ -48,9 +48,12 @@
 				console.info(this.tab[current]);
 				console.info(this.tab[current].name);
 				console.info(this.tab[current]._id);
-				//切换时也要获取数据
-				this.getList(current);
 				this.$emit('indexChange',current);//把内容滑块的索引值传给tab标签实现联动,它会发送给调用页面!!!
+				const _lcd = this.listCatchData[current];
+				if(!_lcd || _lcd.length === 0){
+					//切换时也要获取数据
+					this.getList(current);
+				}
 			},
 			getList(current){
 				this.$api.getListContent({name:this.tab[current].name}).then(data =>{ // name:name 可以简写为 name
