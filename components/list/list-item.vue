@@ -3,7 +3,7 @@
 	<listScroll class="list-scroll" @loadMore="loadMoreData">
 		<!-- contentItem传给子组件 -->
 		<listCart mode="base" :contentItem="item" v-for="(item,index) in listContent" :key="index"></listCart>
-		<!-- 添加加载更多或加载动画,当大于每页大小时才显示加载动画 -->
+		<!-- 添加加载更多或加载动画,当大于每页大小时才显示加载动画,当前默认大小是5 -->
 		<uniLoadMore v-if="listContent.length === 0 || listContent.length > 4" iconType="snow" :status="load.status"></uniLoadMore>
 	</listScroll>
 </template>
