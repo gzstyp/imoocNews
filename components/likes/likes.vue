@@ -8,7 +8,7 @@
 
 <script>
 	export default {
-		props:{
+		props : {
 			item : {
 				type : Object,
 				default(){
@@ -21,7 +21,16 @@
 				like : false //实现点击变实心或空心
 			};
 		},
-		methods:{
+		created() {
+			this.like = this.item.is_like; //但是有可能还没赋值成功,所以要用到watch功能
+		},
+		// watch 是监听 props属性或 data()数据的某一个值的变化而执行某个方法或更改属性值
+		watch : {
+			item(newValue,oldValue){ //此处监听执行的是属性
+				this.like = this.item.is_like;
+			}
+		},
+		methods : {
 			likeTap(){
 				console.info('元素的事件');
 				this.like = !this.like;
@@ -29,15 +38,24 @@
 			},
 			//收藏或取消收藏
 			updateCollect(){
+				uni.showLoading({title:'正在操作……'});//显示正在操作动画
 				this.$api.updateLikes({
 					user_id : '5f6f3bfc37d16d000179521d',
 					article_id : this.item._id
 				}).then(data =>{
+					uni.hideLoading();//功能时隐藏
+					//提示操作结果
+					uni.showToast({
+						title:this.like ? '收藏成功' : '取消收藏',
+						icon:'none'
+					})
 					console.info(data);
 					if(data.code === 200){
 						console.info('收藏|取消收藏成功');
 					}
-				}).catch(err =>{});
+				}).catch(err =>{
+					uni.hideLoading();//失败时隐藏
+				});
 			}
 		}
 	}

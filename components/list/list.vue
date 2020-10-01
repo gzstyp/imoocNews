@@ -35,8 +35,9 @@
 		// onLoad是在页面里周期,created是组件的周期,也就是在组件里是不能用 onLoad
 		created() {
 		},
+		// watch 是监听 props属性或 data()数据的某一个值的变化而执行某个方法或更改属性值
 		watch:{
-			tab(newValue,oldValue){
+			tab(newValue,oldValue){ //此处监听执行的是方法
 				if(newValue.length === 0) return;
 				this.getList(this.activeIndex);//当有值时才去请求数据,当为0时加载第1项[标签]
 			}
