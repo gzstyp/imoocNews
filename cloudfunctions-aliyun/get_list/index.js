@@ -4,6 +4,8 @@ const db = uniCloud.database();
 exports.main = async (event, context) => {
 	//从参数 event 接收参数
 	const name = event.name;
+	const page = event.page;
+	const pageSize = event.pageSize;
 	let matchObj = {};
 	if(name !== '全部'){
 		matchObj = {classify : name}
@@ -11,9 +13,14 @@ exports.main = async (event, context) => {
 	//聚合[类似于数据库的聚合函数]:是更精细化的去处理数据,对返回的数据求和、分组、指定返回哪些字段
 	const list = await db.collection('article')
 	.aggregate()
-	.match(matchObj).project({
+	.match(matchObj)
+	.project({
 		content : false
-	}).end();
+	})
+	//读取区间
+	.skip(pageSize * (page - 1))
+	.limit(pageSize)//限制条数
+	.end();
 	
 	//查询全部数据
 	/* const list = await db.collection('article')//await是同步

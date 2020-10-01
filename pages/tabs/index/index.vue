@@ -31,8 +31,9 @@
 		},
 		methods : {
 			//当前swiper的索引值
-			indexChange(index){ //indexChange是子组件发送回来[内容滑块的索引值] 
-				this.tabIndex = index;
+			indexChange(current){ //indexChange是子组件发送回来[内容滑块的索引值] 
+				this.tabIndex = current;
+				this.activeIndex = current;
 			},
 			getLabel(){
 				/* var _this = this;

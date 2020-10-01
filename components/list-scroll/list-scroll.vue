@@ -1,6 +1,6 @@
 <template>
 	<view class="scroll">
-		<scroll-view scroll-y="true" class="list-scroll">
+		<scroll-view scroll-y="true" class="list-scroll" @scrolltolower="loadMore">
 			<view>
 				<slot></slot>
 			</view>
@@ -14,6 +14,14 @@
 			return {
 				
 			};
+		},
+		methods:{
+			// 触发上拉, 组件 scroll-view的事件scrolltolower,官方的说明：滚动到底部/右边，会触发 scrolltolower 事件
+			loadMore(){
+				console.info('触发上拉,本vue为list-scroll.vue事件获取之后,发送到上一级vue组件->list.vue');
+				//事件获取之后,要发送事件到调用页面,即父组件 list-item.vue
+				this.$emit('loadMore');//通过父组件(调用页面)的自定义事件实时发送事件;此处用不到参数!!!即发往 list-scroll.vue -> list-item.vue -> list.vue
+			}
 		}
 	}
 </script>
