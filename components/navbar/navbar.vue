@@ -1,14 +1,27 @@
 <template>
 	<view class="navbar">
 		<view class="navbar-flexd">
+			<!-- 状态栏 -->
 			<view :style="{height:statusBarHeight+'px'}"></view>
-			<view class="navbar-content" :style="{height:barHeight+'px','width':windowWidth+'px'}">
-				<view class="navbar-search">
+			<!-- 状态栏的内容,此处的openSearch事件要添加 .stop 来阻止冒泡事件,即解决点击它的子元素时直接触发 openSearch()事件,因为子元素本身也有点击事件 -->
+			<view class="navbar-content" :class="{search:isSearch}" :style="{height:barHeight+'px','width':windowWidth+'px'}" @click.stop="openSearch">
+				<!-- 在搜索页时显示 -->
+				<view v-if="isSearch" class="navbar-content_search_icon">
+					<uni-icons type="back" size="22" color="#fff"></uni-icons>
+				</view>
+				<!-- 取反,即不是搜索页时显示 -->
+				<view class="navbar-search" v-if="!isSearch">
+					<!-- 非搜索页显示 -->
 					<view class="navbar-search_icon">
 						<!-- <text class="iconfont icon-search"></text> -->
 						<uni-icons type="search"></uni-icons>
 					</view>
 					<view class="navbar-search_text">输入关键字</view>
+				</view>
+				<!-- 是搜索页时显示 -->
+				<view v-else class="navbar-search">
+					<!-- input事件,实时监听数据事件 -->
+					<input v-model="value" @input="inputChange" class="navbar-search_text" type="text" placeholder="输入关键字" />
 				</view>
 			</view>
 		</view>
@@ -18,11 +31,18 @@
 
 <script>
 	export default {
+		props:{
+			isSearch : {
+				type : Boolean,
+				default : false
+			}
+		},
 		data() {
 			return {
 				statusBarHeight : 20,
 				barHeight : 45,
-				windowWidth : 278/* 375 */				
+				windowWidth : 278,/*, 375 */
+				value : '20'
 			};
 		},
 		created() {
@@ -39,6 +59,20 @@
 			console.info(this.barHeight)
 			this.windowWidth = menuButtonInfo.left;
 			//#endif
+		},
+		methods:{
+			openSearch(){
+				if(this.isSearch) return;
+				uni.navigateTo({
+					url:"/pages/home-search/home-search"
+				});
+			},
+			/* input事件,实时监听数据事件,它会返回输入的内容 */
+			inputChange(e){
+				const {value} = e.detail;
+				//实时监听并发送事件到调用的父组件
+				this.$emit('inputEvent',value);
+			}
 		}
 	}
 </script>
@@ -79,8 +113,21 @@
 					}
 
 					.navbar-search_text {
-						font-size: 12px;
+						font-size: 14px;
 						color: #999;
+						vertical-align: middle;
+					}
+				}
+				
+				&.search{
+					padding-left: 0;
+					
+					.navbar-content_search_icon{
+						margin: 0 10px;
+					}
+					
+					.navbar-search {
+						border-radius: 5px;
 					}
 				}
 			}
