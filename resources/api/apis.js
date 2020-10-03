@@ -21,3 +21,7 @@ export const getListContent = (params) =>{
 export const updateLikes = (params) =>{
 	return requestApi('update_like',params);
 }
+//搜索列表,用法 this.$api.getSearch({}).then(data =>{}).catch(err =>{});
+export const getSearch = (params) =>{
+	return requestApi('get_search',params);
+}

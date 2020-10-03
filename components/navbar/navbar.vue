@@ -21,7 +21,7 @@
 				<!-- 是搜索页时显示 -->
 				<view v-else class="navbar-search">
 					<!-- input事件,实时监听数据事件 -->
-					<input v-model="value" @input="inputChange" class="navbar-search_text" type="text" placeholder="输入关键字" />
+					<input v-model="value" @input="inputChange" class="navbar-search_text" type="text" placeholder="输入关键字" maxlength="15"/>
 				</view>
 			</view>
 		</view>
@@ -35,6 +35,10 @@
 			isSearch : {
 				type : Boolean,
 				default : false
+			},
+			historyValue : {
+				type : [String,Number],//可接收字符串或数字的数据类型
+				default : ''
 			}
 		},
 		data() {
@@ -42,8 +46,15 @@
 				statusBarHeight : 20,
 				barHeight : 45,
 				windowWidth : 278,/*, 375 */
-				value : '20'
+				value : ''
 			};
+		},
+		//收到 从父组件传来的属性名 historyValue 之后，要用到 watch 监听值的变化,做执行相应的方法或改变某个属性的值，watch用于是监听 data() 或 props里的值的变化,此处是把它赋值给value,即在搜索框显示该值
+		watch:{
+			historyValue(newValue,oldValue){
+				console.info('收到 从父组件传来的属性名 historyValue 之后，要用到 watch 监听值的变化,做执行相应的方法或改变某个属性的值，watch用于是监听 data() 或 props里的值的变化');
+				this.value = newValue;//是通过下面的自定义事件 this.$emit('inputEvent',value); 传给父组件home-search.vue的inputEvent接收，而home-search.vue的v-model="historyValue"的historyValue传到本组件，从而显示到输入搜索框
+			}
 		},
 		created() {
 			//获取手机系统信息
@@ -70,7 +81,7 @@
 			/* input事件,实时监听数据事件,它会返回输入的内容 */
 			inputChange(e){
 				const {value} = e.detail;
-				//实时监听并发送事件到调用的父组件
+				//实时监听并发送事件到调用的父组件 home-search.vue
 				this.$emit('inputEvent',value);
 			}
 		}
@@ -116,6 +127,7 @@
 						font-size: 14px;
 						color: #999;
 						vertical-align: middle;
+						width: 100%;
 					}
 				}
 				

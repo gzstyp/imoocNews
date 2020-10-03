@@ -1,6 +1,6 @@
 <!-- 首页的列表项,它是index.vue的每一项的视图view -->
 <template>
-	<view @click="open">
+	<view @click="openDetails">
 		<!-- 基础卡片 -->
 		<view v-if="contentItem.mode === 'base'" class="listcard">
 			<view class="listcard-image">
@@ -82,8 +82,9 @@
 		},
 		methods:{
 			//整个视图的被点击了
-			open(){
+			openDetails(){
 				console.info('详情事件被点击了,无论点击哪里都被触发事件,除了元素本身有事件之外');
+				this.$emit('itemClick',this.contentItem);//发送自定义事件到页面 home-search.vue接收事件
 			}
 		}
 	}

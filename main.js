@@ -7,7 +7,7 @@ Vue.prototype.$api = api;
 App.mpType = 'app';
 
 const app = new Vue({
-	...store,
+	store,//注册到vue，此时可以用 this.store.Xxxx
     ...App
 });
-app.$mount()
+app.$mount();

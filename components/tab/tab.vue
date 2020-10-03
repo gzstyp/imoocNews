@@ -28,7 +28,7 @@
 				default : 0
 			}
 		},
-		//可以监听 data() 或 props的值的变换,此处监听 props 的属性 tabIndex 数据
+		//可以监听 data() 或 props的值的变化,此处监听 props 的属性 tabIndex 数据
 		watch:{
 			tabIndex(newValue,oldValue){
 				this.activeIndex = newValue;
