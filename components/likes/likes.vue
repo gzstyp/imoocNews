@@ -48,7 +48,7 @@
 					uni.showToast({
 						title:this.like ? '收藏成功' : '取消收藏',
 						icon:'none'
-					})
+					});
 					console.info(data);
 					if(data.code === 200){
 						console.info('收藏|取消收藏成功');

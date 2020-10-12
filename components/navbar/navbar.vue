@@ -5,8 +5,8 @@
 			<view :style="{height:statusBarHeight+'px'}"></view>
 			<!-- 状态栏的内容,此处的openSearch事件要添加 .stop 来阻止冒泡事件,即解决点击它的子元素时直接触发 openSearch()事件,因为子元素本身也有点击事件 -->
 			<view class="navbar-content" :class="{search:isSearch}" :style="{height:barHeight+'px','width':windowWidth+'px'}" @click.stop="openSearch">
-				<!-- 在搜索页时显示 -->
-				<view v-if="isSearch" class="navbar-content_search_icon">
+				<!-- 在搜索页时显示,图标 -->
+				<view v-if="isSearch" class="navbar-content_search_icon" @click="back">
 					<uni-icons type="back" size="22" color="#fff"></uni-icons>
 				</view>
 				<!-- 取反,即不是搜索页时显示 -->
@@ -21,7 +21,7 @@
 				<!-- 是搜索页时显示 -->
 				<view v-else class="navbar-search">
 					<!-- input事件,实时监听数据事件 -->
-					<input v-model="value" @input="inputChange" class="navbar-search_text" type="text" placeholder="输入关键字" maxlength="15"/>
+					<input v-model="val" @input="inputChange" class="navbar-search_text" type="text" placeholder="输入关键字" />
 				</view>
 			</view>
 		</view>
@@ -36,7 +36,8 @@
 				type : Boolean,
 				default : false
 			},
-			historyValue : {
+			//从父组件传来的搜索关键字
+			dataValue : {
 				type : [String,Number],//可接收字符串或数字的数据类型
 				default : ''
 			}
@@ -46,14 +47,14 @@
 				statusBarHeight : 20,
 				barHeight : 45,
 				windowWidth : 278,/*, 375 */
-				value : ''
+				val : ''
 			};
 		},
-		//收到 从父组件传来的属性名 historyValue 之后，要用到 watch 监听值的变化,做执行相应的方法或改变某个属性的值，watch用于是监听 data() 或 props里的值的变化,此处是把它赋值给value,即在搜索框显示该值
+		//收到 从父组件传来的属性名 value 之后，要用到 watch 监听值的变化,做执行相应的方法或改变某个属性的值，watch用于是监听 data() 或 props里的值的变化,此处是把它赋值给value,即在搜索框显示该值
 		watch:{
-			historyValue(newValue,oldValue){
-				console.info('收到 从父组件传来的属性名 historyValue 之后，要用到 watch 监听值的变化,做执行相应的方法或改变某个属性的值，watch用于是监听 data() 或 props里的值的变化');
-				this.value = newValue;//是通过下面的自定义事件 this.$emit('inputEvent',value); 传给父组件home-search.vue的inputEvent接收，而home-search.vue的v-model="historyValue"的historyValue传到本组件，从而显示到输入搜索框
+			dataValue(newValue){
+				console.info('收到 从父组件传来的属性名 value:'+newValue+' 之后，要用到 watch 监听值的变化,做执行相应的方法或改变某个属性的值，watch用于是监听 data() 或 props里的值的变化');
+				this.val = newValue;//是通过下面的自定义事件 this.$emit('inputEvent',val); 传给父组件home-search.vue的inputEvent接收，而home-search.vue的v-model="value"的 value 传到本组件，从而显示到输入搜索框
 			}
 		},
 		created() {
@@ -73,7 +74,7 @@
 		},
 		methods:{
 			openSearch(){
-				if(this.isSearch) return;
+				if(this.isSearch) return;//防止在搜索页时再跳转到搜索页
 				uni.navigateTo({
 					url:"/pages/home-search/home-search"
 				});
@@ -83,6 +84,13 @@
 				const {value} = e.detail;
 				//实时监听并发送事件到调用的父组件 home-search.vue
 				this.$emit('inputEvent',value);
+			},
+			//返回
+			back(){
+				//uni.navigateBack();//在H5中有bug,不推荐使用,但可以尝试!
+				uni.switchTab({
+					url:'/pages/tabs/index/index'
+				});
 			}
 		}
 	}

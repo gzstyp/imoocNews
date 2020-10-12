@@ -1,26 +1,26 @@
 <!-- 首页点击首页跳转到搜索页面 -->
 <template>
 	<view class="home">
-		<!-- 自定义导航栏,v-model="historyValue"用于点击搜索历史某项时直接显示在搜索框里,所以要把 v-model里的key[historyValue]传递子组件navbar.vue里,即在props添加一个属性名historyValue -->
-		<navbar :isSearch="true" @inputEvent="inputEvent" v-model="historyValue"></navbar>
+		<!-- 自定义导航栏,v-model="value"用于点击搜索历史某项时直接显示在搜索框里,所以要把 v-model里的key[value]传递子组件navbar.vue里,即在props添加一个属性名value -->
+		<navbar :isSearch="true" @inputEvent="eventInput" :dataValue="dataValue"></navbar>
 		<!-- 搜索历史 -->
 		<view class="home-list">
-			<!-- 历史标签容器 -->
+			<!-- ++++++++++++如果是历史标签容器 -->
 			<view v-if="is_history" class="label-box">
 				<view class="label-header">
 					<text class="label-title">搜索历史</text>
-					<text class="label-clear">清空</text>
+					<text class="label-clear" @click="clear">清空</text>
 				</view>
-				<!-- 有历史数据时 -->
+				<!-- ****************如果有历史数据时 -->
 				<view v-if="historyLists.length > 0" class="label-content">
-					<view class="label-content_item" v-for="item in historyLists" :key="item.name" @click="historyTagsClick(item)">{{item.name}}</view>
+					<view class="label-content_item" v-for="(item,index) in historyLists" :key="index" @click="historyTagsClick(item)">{{item.name}}</view>
 				</view>
-				<!-- 没有历史数据时 -->
+				<!-- ****************如果没有历史数据时 -->
 				<view v-else class="no-data">
 					搜索历史为空
 				</view>
 			</view>
-			<!-- <button type="primary" @click="textBtn">给store的state的historyLists添加值</button> -->
+			<!-- ++++++++++++如果不是历史标签容器,<button type="primary" @click="textBtn">给store的state的historyLists添加值</button> -->
 			<listScroll v-else class="list-scroll">
 				<!-- 自定义事件名为@itemClick是接收从子页面list-cart发送的实时事件 -->
 				<listCart  :contentItem="item" v-for="(item,index) in searchList" :key="index" @itemClick="setHistory"></listCart>
@@ -38,9 +38,9 @@
 		components:{
 			navbar,listCart,listScroll
 		},
-		//计算属性,它实时监听vuex的状态mapState的变化,实时监听 /store/index.js 的标识state下里定义的 historyLists 值;watch是监听 data() 或 props的值的变化而执行响应的事件或更改值
-		computed:{
-			//...mapState(['historyLists']) //数组方法,这个'historyLists'是在 /store/index.js 的标识state下里定义的 historyLists 值,它historyLists是属性[相当于在data()或props定义的key]
+		//计算属性,它实时监听vuex的状态mapState的变化,即实时监听 /store/index.js 的标识state下里定义的 historyLists 值;watch是监听 data() 或 props的值的变化而执行响应的事件或更改值
+		computed : {
+			//...mapState(['historyLists']) //数组方法,这个'historyLists'是在 /store/index.js 的标识state下里定义的 historyLists 值,它historyLists是属性[相当于在data()或props定义的key],页面可以使用这个historyLists数据
 			...mapState( // ...mapState是调用vuex的mapState,它接收的是一个数组[]或对象{}
 				{
 					historyLists : state => state.historyLists //这个是对象为参数,页面可以使用这个historyLists数据
@@ -50,17 +50,15 @@
 		data() {
 			return {
 				//有了上面计算属性 computed 之后，这里的data()下的historyLists : [] 就不需要了,就是上面的computed的historyLists可以本处替换相同的key(historyLists)
-				is_history : true,//区分是搜索结果还是搜索记录,为true显示的是历史记录,false显示的是搜索结果
+				is_history : true,//区分是搜索结果还是搜索记录,为true显示的是历史记录,false显示的是搜索结果,默认是搜索记录
 				searchList : [],
-				historyValue : ''//存储发送来的搜索关键字
+				dataValue : '',//存储发送来的搜索关键字
 			}
 		},
-		onLoad() {
-			//this.getListSearch();//没必要在onload的时候初始化
-		},
 		methods: {
-			inputEvent(value){
-				this.historyValue = value;
+			//监听改变事件
+			eventInput(value){
+				this.dataValue = value;
 				if(!value){
 					clearTimeout(this.timer);
 					this.mark = false;
@@ -77,21 +75,28 @@
 				}
 			},
 			setHistory(){
-				// vuex的actions异步调用,其意义是分发 action。options 里可以有 root: true，它允许在命名空间模块里分发根的 action。返回一个解析所有被触发的 action 处理器的 Promise。
-				this.$store.dispatch('set_history',{ //set_history是 actions下的 set_history 异步方法，格式为json发送到store/index.js下的actions的方法set_history()
-					name : this.historyValue
+				if(this.dataValue){
+					// vuex的actions异步调用,其意义是分发 action。options 里可以有 root: true，它允许在命名空间模块里分发根的 action。返回一个解析所有被触发的 action 处理器的 Promise。
+					this.$store.dispatch('set_history',{ //set_history是 actions下的 set_history 异步方法，格式为json发送到store/index.js下的actions的方法set_history()
+						name : this.dataValue
+					});
+				}				
+			},
+			clear(){
+				this.$store.dispatch('clearHistory');
+				uni.showToast({
+					title:'清空成功'
 				});
 			},
+			//搜索
 			getListSearch(value){
 				if(!value){
 					this.searchList = [];
 					this.is_history = true;
-					return;
+					return
 				}
 				this.is_history = false;
-				this.$api.getSearch({
-						value : value
-				}).then(data =>{
+				this.$api.getSearch({value : value}).then(data =>{
 					console.info(data);
 					if(data.code === 200){
 						this.searchList = data.data;
@@ -100,9 +105,10 @@
 					console.info(err);
 				});
 			},
+			//点击把值渲染到输入框，同时搜索
 			historyTagsClick(item){
-				this.historyValue = item.name;
-				this.getListSearch(this.historyValue);
+				this.getListSearch(item.name);
+				this.dataValue = item.name;
 			}
 		}
 	}
@@ -119,7 +125,6 @@
 		display: flex;
 		flex-direction: column;/* 垂直排列 */
 		flex: 1;/* 撑满整个宽高度!!! */
-		border: 1px solid #007AFF;
 		
 		/* 搜索历史区域 */
 		.label-box{
