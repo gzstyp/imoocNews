@@ -8,7 +8,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="tab-icons">
+		<view class="tab-icons" @click="open">
 			<uni-icons type="gear" size="26" color="#666"></uni-icons>
 		</view>
 	</view>
@@ -43,6 +43,11 @@
 			clickTab(item,index){
 				this.activeIndex = index;
 				this.$emit('tabEvent',{data:item,index});//事件的发送|发射,并在调用事件名@tabEvent接收即可,即在index.vue的接收,它往调用页面发送数据
+			},
+			open(){
+				uni.navigateTo({
+					url:'/pages/home-label/home-label'
+				})
 			}
 		}
 	}

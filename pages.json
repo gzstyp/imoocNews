@@ -28,6 +28,13 @@
 				"navigationBarTextStyle":"white"
 			}
         }
+        ,{
+            "path" : "pages/home-label/home-label",
+            "style" : {
+				"navigationBarTextStyle":"white",
+				"navigationBarTitleText": "标签管理"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
