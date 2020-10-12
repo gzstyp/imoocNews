@@ -46,7 +46,7 @@
 					uni.hideLoading();//功能时隐藏
 					//提示操作结果
 					uni.showToast({
-						title:this.like ? '收藏成功' : '取消收藏',
+						title:this.like ? '收藏成功' : '取消成功',
 						icon:'none'
 					});
 					console.info(data);
